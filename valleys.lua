@@ -28,12 +28,20 @@ noises[7] = table.copy(noises[1])
 noises[7].octaves = noises[6].octaves - 1
 --noises[7].persist = noises[6].persist - 0.1
 
+local noise_objects = {}
 local function get_noise(pos, i)
-	local noise = minetest.get_perlin(noises[i])
+  if not noise_objects[i] then
+    noise_objects[i] = minetest.get_perlin(noises[i])
+    if not noise_objects[i] then
+      print('Cityscape: Error acquiring noise object')
+      return
+    end
+  end
+
 	if i == 6 then
-		return noise:get3d(pos)
+		return noise_objects[i]:get3d(pos)
 	else
-		return noise:get2d({x=pos.x, y=pos.z})
+		return noise_objects[i]:get2d({x=pos.x, y=pos.z})
 	end
 end
 cityscape.get_noise = get_noise

@@ -9,6 +9,9 @@ local river_size = 5 / 100
 local beach_level = 5
 local city_range = 10  -- noise level to produce city in
 
+local road_map_map, rivers_map
+local road_map, rivers = {}, {}
+
 local good_nodes, grassy = {}, {}
 do
 	local t = { "cityscape:concrete", "cityscape:concrete2",
@@ -258,6 +261,9 @@ tree_biomes["coniferous_forest"] = {"conifer_trees"}
 tree_biomes["rainforest"] = {"jungle_trees"}
 
 
+local seed_noise
+
+
 function cityscape.generate(p_minp, p_maxp, seed)
 	minp, maxp = p_minp, p_maxp
 	vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
@@ -283,13 +289,25 @@ function cityscape.generate(p_minp, p_maxp, seed)
 	end
 
 	-- use the same seed (based on perlin noise).
-	local seed_noise = minetest.get_perlin({offset = 0, scale = 32768,
-	seed = 5202, spread = {x = 80, y = 80, z = 80}, octaves = 2,
-	persist = 0.4, lacunarity = 2})
+  if not seed_noise then
+    seed_noise = minetest.get_perlin({offset = 0, scale = 32768, seed = 5202, spread = {x = 80, y = 80, z = 80}, octaves = 2, persist = 0.4, lacunarity = 2})
+    if not seed_noise then
+      return
+    end
+  end
 	math.randomseed(seed_noise:get2d({x=minp.x, y=minp.z}))
 
-	local road_map = minetest.get_perlin_map(noises[7], {x=csize.x + 2, y=csize.z + 2}):get2dMap_flat({x=minp.x - 1, y=minp.z - 1})
-	local rivers = minetest.get_perlin_map(noises[2], {x=csize.x, y=csize.z}):get2dMap_flat({x=minp.x, y=minp.z})
+  if not (road_map_map and rivers_map) then
+    road_map_map = minetest.get_perlin_map(noises[7], {x=csize.x + 2, y=csize.z + 2})
+    rivers_map = minetest.get_perlin_map(noises[2], {x=csize.x, y=csize.z})
+    if not (road_map_map and rivers_map) then
+      return
+    end
+  end
+
+  road_map = road_map_map:get2dMap_flat({x=minp.x - 1, y=minp.z - 1}, road_map)
+  rivers = rivers_map:get2dMap_flat({x=minp.x, y=minp.z}, rivers)
+
 	local road_n, last_road_nx, last_road_nz
 
 	local plot_sz_x = div_sz_x - streetw - sidewalk * 2
