@@ -89,20 +89,26 @@ minetest.register_node("cityscape:concrete_broken", newnode)
 local newnode = cityscape.clone_node("cityscape:concrete")
 newnode.tiles = {"default_stone.png^[colorize:#964B00:40"}
 minetest.register_node("cityscape:concrete2", newnode)
+newnode = cityscape.clone_node("cityscape:concrete")
 newnode.tiles = {"default_stone.png^[colorize:#FF0000:20"}
 minetest.register_node("cityscape:concrete3", newnode)
+newnode = cityscape.clone_node("cityscape:concrete")
 newnode.tiles = {"default_stone.png^[colorize:#4682B4:10"}
 minetest.register_node("cityscape:concrete4", newnode)
+newnode = cityscape.clone_node("cityscape:concrete")
 newnode.tiles = {"default_stone.png^[colorize:#000000:40"}
 minetest.register_node("cityscape:concrete5", newnode)
 
-local newnode = cityscape.clone_node("cityscape:concrete_broken")
+newnode = cityscape.clone_node("cityscape:concrete_broken")
 newnode.tiles = {"default_stone.png^[colorize:#964B00:40^cityscape_broken_3_low.png"}
 minetest.register_node("cityscape:concrete2_broken", newnode)
+newnode = cityscape.clone_node("cityscape:concrete_broken")
 newnode.tiles = {"default_stone.png^[colorize:#FF0000:20^cityscape_broken_3_low.png"}
 minetest.register_node("cityscape:concrete3_broken", newnode)
+newnode = cityscape.clone_node("cityscape:concrete_broken")
 newnode.tiles = {"default_stone.png^[colorize:#4682B4:10^cityscape_broken_3_low.png"}
 minetest.register_node("cityscape:concrete4_broken", newnode)
+newnode = cityscape.clone_node("cityscape:concrete_broken")
 newnode.tiles = {"default_stone.png^[colorize:#000000:40^cityscape_broken_3_low.png"}
 minetest.register_node("cityscape:concrete5_broken", newnode)
 
